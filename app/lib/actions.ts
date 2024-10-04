@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 const FormSchema = z.object({
     id: z.string(),
     customerId: z.string({
-        invalid_type_error: 'Please Select a customer.',
+        invalid_type_error: 'Please select a customer.',
     }),
     amount: z.coerce
         .number()
@@ -86,7 +86,7 @@ export async function updateInvoice(
         return {
             errors: validatedFields.error.flatten().fieldErrors,
             message: 'Missing Fields. Failed to Update Invoice.',
-        }
+        };
     }
    
     const { customerId, amount, status } = validatedFields.data;
@@ -99,7 +99,7 @@ export async function updateInvoice(
             WHERE id = ${id}
         `;
     } catch (error) {
-        return { message: 'Database Error: Faild to Update Invoice.' };
+        return { message: 'Database Error: Failed to Update Invoice.' };
     }
    
     revalidatePath('/dashboard/invoices');
@@ -110,8 +110,8 @@ export async function deleteInvoice(id: string) {
     try {
         await sql`DELETE FROM invoices WHERE id = ${id}`;
         revalidatePath('/dashboard/invoices');
-        return { message: 'Deleted Invoice.' };
+        return { message: 'Deleted Invoice' };
     } catch (error) {
-        return { message: 'Database Error: Faild to Delete Invoice.' };
+        return { message: 'Database Error: Failed to Delete Invoice.' };
     }
 }
